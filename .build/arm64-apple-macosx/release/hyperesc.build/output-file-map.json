@@ -4,6 +4,12 @@
     "object": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/hyperesc.o",
     "swift-dependencies": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/master.swiftdeps"
   },
+  "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/KeyHandler.swift": {
+    "object": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/KeyHandler.swift.o",
+    "swiftmodule": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/KeyHandler~partial.swiftmodule",
+    "swift-dependencies": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/KeyHandler.swiftdeps",
+    "diagnostics": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/KeyHandler.dia"
+  },
   "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/Permissions.swift": {
     "object": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/Permissions.swift.o",
     "swiftmodule": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/Permissions~partial.swiftmodule",

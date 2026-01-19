@@ -24,6 +24,10 @@
       "inputs" : [
         {
           "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/KeyHandler.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/Permissions.swift"
         },
         {
@@ -43,6 +47,7 @@
       "moduleName" : "hyperesc",
       "moduleOutputPath" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/Modules/hyperesc.swiftmodule",
       "objects" : [
+        "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/KeyHandler.swift.o",
         "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/Permissions.swift.o",
         "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/main.swift.o"
       ],
@@ -64,7 +69,6 @@
         "-entry-point-function-name",
         "-Xfrontend",
         "hyperesc_main",
-        "-color-diagnostics",
         "-swift-version",
         "5",
         "-plugin-path",
@@ -101,6 +105,10 @@
       "outputs" : [
         {
           "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/KeyHandler.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/Permissions.swift.o"
         },
         {
@@ -114,6 +122,7 @@
       ],
       "prepareForIndexing" : false,
       "sources" : [
+        "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/KeyHandler.swift",
         "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/Permissions.swift",
         "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/main.swift"
       ],
@@ -130,6 +139,7 @@
       "-module-name",
       "hyperesc",
       "-c",
+      "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/KeyHandler.swift",
       "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/Permissions.swift",
       "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/main.swift",
       "-I",
@@ -151,7 +161,6 @@
       "-entry-point-function-name",
       "-Xfrontend",
       "hyperesc_main",
-      "-color-diagnostics",
       "-swift-version",
       "5",
       "-plugin-path",
@@ -213,6 +222,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/KeyHandler.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/Permissions.swift"
         },
         {
@@ -228,6 +241,10 @@
         {
           "kind" : "virtual",
           "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/KeyHandler.swift.o"
         },
         {
           "kind" : "file",
