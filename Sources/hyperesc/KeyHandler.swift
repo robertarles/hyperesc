@@ -1,4 +1,5 @@
 import Foundation
+import CoreGraphics
 
 enum KeyState {
     case idle
@@ -50,5 +51,62 @@ class KeyHandler {
                 print("[KeyHandler] Other key pressed - state: modified")
             }
         }
+    }
+
+    // MARK: - Event Synthesis
+
+    /// Synthesizes an Escape key press (down + up)
+    func postEscapeKey() {
+        let escapeKeyCode: CGKeyCode = 0x35
+
+        // Escape key down
+        guard let keyDown = CGEvent(keyboardEventSource: nil, virtualKey: escapeKeyCode, keyDown: true) else {
+            if config.verbose {
+                print("[KeyHandler] ERROR: Failed to create Escape keyDown event")
+            }
+            return
+        }
+        keyDown.post(tap: .cghidEventTap)
+
+        // Escape key up
+        guard let keyUp = CGEvent(keyboardEventSource: nil, virtualKey: escapeKeyCode, keyDown: false) else {
+            if config.verbose {
+                print("[KeyHandler] ERROR: Failed to create Escape keyUp event")
+            }
+            return
+        }
+        keyUp.post(tap: .cghidEventTap)
+
+        if config.verbose {
+            print("[KeyHandler] Posted Escape key (0x35)")
+        }
+    }
+
+    /// Copies an event and injects modifier flags based on config
+    func postModifiedKey(event: CGEvent) -> CGEvent? {
+        guard let modifiedEvent = event.copy() else {
+            if config.verbose {
+                print("[KeyHandler] ERROR: Failed to copy event for modifier injection")
+            }
+            return nil
+        }
+
+        // Set modifier flags based on config
+        var flags = modifiedEvent.flags
+        if config.useFullHyper {
+            // Full hyper: Cmd+Opt+Ctrl+Shift
+            flags.insert([.maskCommand, .maskAlternate, .maskControl, .maskShift])
+        } else {
+            // Default: Cmd+Opt
+            flags.insert([.maskCommand, .maskAlternate])
+        }
+        modifiedEvent.flags = flags
+
+        if config.verbose {
+            let modifierStr = config.useFullHyper ? "Cmd+Opt+Ctrl+Shift" : "Cmd+Opt"
+            print("[KeyHandler] Injected modifiers: \(modifierStr)")
+        }
+
+        return modifiedEvent
     }
 }
