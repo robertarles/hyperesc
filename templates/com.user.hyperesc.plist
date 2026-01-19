@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.user.hyperesc</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/hyperesc</string>
+        <!-- Uncomment and modify options as needed -->
+        <!-- <string>--threshold</string> -->
+        <!-- <string>200</string> -->
+        <!-- <string>--full-hyper</string> -->
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/hyperesc.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/hyperesc.err</string>
+</dict>
+</plist>

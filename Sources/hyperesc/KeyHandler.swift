@@ -44,6 +44,16 @@ class KeyHandler {
         }
     }
 
+    /// Returns true if Caps Lock is currently held (in held or modified state)
+    var isCapsLockHeld: Bool {
+        switch state {
+        case .held, .modified:
+            return true
+        case .idle:
+            return false
+        }
+    }
+
     func handleOtherKeyPressed() {
         if case .held = state {
             state = .modified

@@ -1,8 +1,10 @@
 import CoreGraphics
 import Foundation
 
-// Caps Lock virtual key code
-private let kCapsLockKeyCode: Int64 = 57
+// Key codes
+// Caps Lock is remapped to F18 (0x4F = 79) via hidutil to avoid system Caps Lock behavior
+private let kCapsLockKeyCode: Int64 = 57  // Original Caps Lock (for flagsChanged)
+private let kF18KeyCode: Int64 = 79       // F18 (remapped Caps Lock)
 
 // Global callback function for CGEvent tap
 private func eventTapCallback(
@@ -121,29 +123,45 @@ class EventTap {
         let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
         let timestamp = Double(event.timestamp) / 1_000_000_000.0  // Convert to seconds
 
-        // Handle Caps Lock (flagsChanged event with keycode 57)
+        // Handle F18 (remapped Caps Lock via hidutil)
+        // F18 comes as keyDown/keyUp events, not flagsChanged
+        if keyCode == kF18KeyCode {
+            if type == .keyDown {
+                keyHandler.handleCapsLockDown(timestamp: timestamp)
+                if verbose {
+                    print("[EventTap] F18 (Caps Lock) DOWN")
+                }
+            } else if type == .keyUp {
+                if keyHandler.handleCapsLockUp(timestamp: timestamp) {
+                    keyHandler.postEscapeKey()
+                }
+                if verbose {
+                    print("[EventTap] F18 (Caps Lock) UP")
+                }
+            }
+            // Suppress the F18 event
+            return nil
+        }
+
+        // Handle original Caps Lock flagsChanged (backup, in case hidutil remap not active)
         if type == .flagsChanged && keyCode == kCapsLockKeyCode {
             let flags = event.flags
 
             if flags.contains(.maskAlphaShift) {
-                // Caps Lock pressed down
                 keyHandler.handleCapsLockDown(timestamp: timestamp)
             } else {
-                // Caps Lock released
                 if keyHandler.handleCapsLockUp(timestamp: timestamp) {
                     keyHandler.postEscapeKey()
                 }
             }
-
-            // Suppress the Caps Lock event (don't toggle Caps Lock LED)
             return nil
         }
 
-        // Handle other key events while Caps Lock might be held
-        if type == .keyDown {
+        // Handle other key events while Caps Lock is held
+        if type == .keyDown && keyHandler.isCapsLockHeld {
             keyHandler.handleOtherKeyPressed()
 
-            // If we're in modified state, inject hyper modifiers
+            // Inject hyper modifiers
             if let modifiedEvent = keyHandler.postModifiedKey(event: event) {
                 return Unmanaged.passRetained(modifiedEvent)
             }

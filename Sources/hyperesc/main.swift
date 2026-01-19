@@ -100,6 +100,52 @@ guard checkAccessibilityPermission() else {
 
 print("hyperesc initializing...")
 
+// Disable system Caps Lock behavior using hidutil
+// Remaps Caps Lock (0x39) to F18 (0x6D) which we can intercept without side effects
+func disableCapsLock() -> Bool {
+    let task = Process()
+    task.executableURL = URL(fileURLWithPath: "/usr/bin/hidutil")
+    task.arguments = [
+        "property",
+        "--set",
+        #"{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000006D}]}"#
+    ]
+
+    do {
+        try task.run()
+        task.waitUntilExit()
+        return task.terminationStatus == 0
+    } catch {
+        return false
+    }
+}
+
+func restoreCapsLock() {
+    let task = Process()
+    task.executableURL = URL(fileURLWithPath: "/usr/bin/hidutil")
+    task.arguments = [
+        "property",
+        "--set",
+        #"{"UserKeyMapping":[]}"#
+    ]
+
+    do {
+        try task.run()
+        task.waitUntilExit()
+    } catch {
+        // Ignore errors on cleanup
+    }
+}
+
+// Disable Caps Lock at system level
+if config.verbose {
+    print("Disabling system Caps Lock...")
+}
+guard disableCapsLock() else {
+    fputs("ERROR: Failed to disable system Caps Lock.\n", stderr)
+    exit(1)
+}
+
 // Create key handler and event tap
 let keyHandler = KeyHandler(config: config)
 let eventTap = EventTap(keyHandler: keyHandler, verbose: config.verbose)
@@ -115,6 +161,7 @@ print("hyperesc running. Press Ctrl+C to quit.")
 // Handle SIGINT (Ctrl+C) for clean shutdown
 signal(SIGINT) { _ in
     print("\nhyperesc shutting down...")
+    restoreCapsLock()
     exit(0)
 }
 
