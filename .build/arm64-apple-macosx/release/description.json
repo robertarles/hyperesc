@@ -1,0 +1,258 @@
+{
+  "builtTestProducts" : [
+
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.hyperesc-arm64-apple-macosx26.0-release.module" : {
+      "executable" : "/Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/sources",
+      "importPath" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/Permissions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/main.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/swift-version--44D72886A502174.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/sources"
+        }
+      ],
+      "isLibrary" : false,
+      "moduleName" : "hyperesc",
+      "moduleOutputPath" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/Modules/hyperesc.swiftmodule",
+      "objects" : [
+        "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/Permissions.swift.o",
+        "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/main.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx12.0",
+        "-whole-module-optimization",
+        "-num-threads",
+        "14",
+        "-serialize-diagnostics",
+        "-O",
+        "-j14",
+        "-DSWIFT_PACKAGE",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/ModuleCache",
+        "-parseable-output",
+        "-Xfrontend",
+        "-entry-point-function-name",
+        "-Xfrontend",
+        "hyperesc_main",
+        "-color-diagnostics",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g"
+      ],
+      "outputFileMapPath" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/Permissions.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/main.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/Modules/hyperesc.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/Permissions.swift",
+        "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/main.swift"
+      ],
+      "tempsPath" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build",
+      "wholeModuleOptimization" : true
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "hyperesc" : [
+      "/Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "hyperesc",
+      "-c",
+      "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/Permissions.swift",
+      "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/main.swift",
+      "-I",
+      "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/Modules",
+      "-target",
+      "arm64-apple-macosx12.0",
+      "-whole-module-optimization",
+      "-num-threads",
+      "14",
+      "-serialize-diagnostics",
+      "-O",
+      "-j14",
+      "-DSWIFT_PACKAGE",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/ModuleCache",
+      "-parseable-output",
+      "-Xfrontend",
+      "-entry-point-function-name",
+      "-Xfrontend",
+      "hyperesc_main",
+      "-color-diagnostics",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode-16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "hyperesc" : [
+
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/Permissions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/main.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/sources"
+    },
+    "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/Permissions.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/main.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.product/Objects.LinkFileList"
+    },
+    "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/swift-version--44D72886A502174.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode-16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/swift-version--44D72886A502174.txt"
+    }
+  }
+}

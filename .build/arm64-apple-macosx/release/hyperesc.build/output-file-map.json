@@ -1,0 +1,19 @@
+{
+  "": {
+    "dependencies": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/hyperesc.d",
+    "object": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/hyperesc.o",
+    "swift-dependencies": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/master.swiftdeps"
+  },
+  "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/Permissions.swift": {
+    "object": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/Permissions.swift.o",
+    "swiftmodule": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/Permissions~partial.swiftmodule",
+    "swift-dependencies": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/Permissions.swiftdeps",
+    "diagnostics": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/Permissions.dia"
+  },
+  "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/main.swift": {
+    "object": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/main.swift.o",
+    "swiftmodule": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/main.swiftdeps",
+    "diagnostics": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/main.dia"
+  }
+}
