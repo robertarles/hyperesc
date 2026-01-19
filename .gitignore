@@ -1,3 +1,11 @@
+# Swift build artifacts
+.build/
+.swiftpm/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+*.dSYM/
+
 # Logs
 logs
 *.log
