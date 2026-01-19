@@ -7,7 +7,7 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/local/bin/hyperesc</string>
+        <string>/Applications/hyperesc.app/Contents/MacOS/hyperesc</string>
         <!-- Uncomment and modify options as needed -->
         <!-- <string>--threshold</string> -->
         <!-- <string>200</string> -->

@@ -1,0 +1,33 @@
+{
+  "": {
+    "swift-dependencies": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/master.swiftdeps"
+  },
+  "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/EventTap.swift": {
+    "dependencies": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/EventTap.d",
+    "object": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/EventTap.swift.o",
+    "swiftmodule": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/EventTap~partial.swiftmodule",
+    "swift-dependencies": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/EventTap.swiftdeps",
+    "diagnostics": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/EventTap.dia"
+  },
+  "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/KeyHandler.swift": {
+    "dependencies": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/KeyHandler.d",
+    "object": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/KeyHandler.swift.o",
+    "swiftmodule": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/KeyHandler~partial.swiftmodule",
+    "swift-dependencies": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/KeyHandler.swiftdeps",
+    "diagnostics": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/KeyHandler.dia"
+  },
+  "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/Permissions.swift": {
+    "dependencies": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/Permissions.d",
+    "object": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/Permissions.swift.o",
+    "swiftmodule": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/Permissions~partial.swiftmodule",
+    "swift-dependencies": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/Permissions.swiftdeps",
+    "diagnostics": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/Permissions.dia"
+  },
+  "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/main.swift": {
+    "dependencies": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/main.d",
+    "object": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/main.swift.o",
+    "swiftmodule": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/main.swiftdeps",
+    "diagnostics": "/Users/robert/src/robertarles/hyperesc/.build/index-build/arm64-apple-macosx/debug/hyperesc.build/main.dia"
+  }
+}

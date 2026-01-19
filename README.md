@@ -1,6 +1,7 @@
 # hyperesc
 
 A lightweight macOS utility that transforms Caps Lock into a dual-function key:
+
 - **Tap** Caps Lock → Escape
 - **Hold** Caps Lock + another key → Hyper modifier (Cmd+Opt by default)
 
@@ -25,17 +26,35 @@ cd hyperesc
 ./build.sh
 ```
 
-### Install
+### Install as App Bundle (Recommended)
+
+The app bundle installation is recommended because it allows hyperesc to appear in the macOS Accessibility permissions list with its own identity.
+
+```bash
+./build.sh app-bundle
+```
+
+This creates `/Applications/hyperesc.app`. Run it with:
+
+```bash
+/Applications/hyperesc.app/Contents/MacOS/hyperesc
+```
+
+### Alternative: Install to /usr/local/bin
 
 ```bash
 ./build.sh install
 ```
 
-This copies the binary to `/usr/local/bin/`.
+Note: When installed this way, hyperesc inherits permissions from its parent process (Terminal, VS Code, etc.). You'll need to grant Accessibility permission to the terminal app you use.
 
 ### Uninstall
 
 ```bash
+# Remove app bundle
+./build.sh uninstall-app
+
+# Remove from /usr/local/bin
 ./build.sh uninstall
 ```
 
@@ -43,16 +62,29 @@ This copies the binary to `/usr/local/bin/`.
 
 hyperesc requires **Accessibility** permission to intercept keyboard events.
 
-1. Run `hyperesc` - macOS will prompt for permission
-2. Go to **System Settings → Privacy & Security → Accessibility**
-3. Enable hyperesc (or Terminal if running from terminal)
-4. Restart hyperesc
+### With App Bundle (Recommended)
 
-If the binary doesn't appear in the list, add Terminal.app (or your IDE) to Accessibility instead - child processes inherit the parent's permissions.
+1. Run `/Applications/hyperesc.app/Contents/MacOS/hyperesc`
+2. macOS will prompt for Accessibility permission
+3. Go to **System Settings → Privacy & Security → Accessibility**
+4. Enable **hyperesc** in the list
+5. Restart hyperesc
+
+### With CLI Binary
+
+If you installed to `/usr/local/bin`, you need to grant permission to your terminal app:
+
+1. Go to **System Settings → Privacy & Security → Accessibility**
+2. Add your terminal app (Terminal.app, WezTerm, iTerm2, etc.)
+3. Run `hyperesc` from that terminal
 
 ## Usage
 
 ```bash
+# From app bundle
+/Applications/hyperesc.app/Contents/MacOS/hyperesc [OPTIONS]
+
+# From /usr/local/bin
 hyperesc [OPTIONS]
 ```
 
@@ -69,16 +101,16 @@ hyperesc [OPTIONS]
 
 ```bash
 # Run with defaults (200ms threshold, Cmd+Opt modifier)
-hyperesc
+/Applications/hyperesc.app/Contents/MacOS/hyperesc
 
 # Use 150ms tap threshold
-hyperesc -t 150
+/Applications/hyperesc.app/Contents/MacOS/hyperesc -t 150
 
 # Use full Hyper key (Cmd+Opt+Ctrl+Shift)
-hyperesc --full-hyper
+/Applications/hyperesc.app/Contents/MacOS/hyperesc --full-hyper
 
 # Custom threshold, full hyper, verbose output
-hyperesc -t 250 -f -v
+/Applications/hyperesc.app/Contents/MacOS/hyperesc -t 250 -f -v
 ```
 
 ## Auto-Start with LaunchAgent
@@ -86,41 +118,57 @@ hyperesc -t 250 -f -v
 To start hyperesc automatically on login:
 
 1. Copy the plist template:
+
 ```bash
 cp templates/com.user.hyperesc.plist ~/Library/LaunchAgents/
 ```
 
-2. Edit the plist if needed (threshold, flags)
+1. The template is pre-configured for the app bundle path. Edit if needed:
 
-3. Load the agent:
+```bash
+nano ~/Library/LaunchAgents/com.user.hyperesc.plist
+```
+
+1. Load the agent:
+
 ```bash
 launchctl load ~/Library/LaunchAgents/com.user.hyperesc.plist
 ```
 
-4. To unload:
+1. To unload:
+
 ```bash
 launchctl unload ~/Library/LaunchAgents/com.user.hyperesc.plist
 ```
 
 ## How It Works
 
-1. hyperesc creates a CGEventTap to intercept keyboard events
-2. When Caps Lock is pressed, it starts a timer
-3. If Caps Lock is released within the threshold (default 200ms) without pressing another key, Escape is emitted
-4. If another key is pressed while Caps Lock is held, the Hyper modifiers are added to that key event
-5. The original Caps Lock event is suppressed (LED doesn't toggle)
+1. hyperesc remaps Caps Lock to F18 at the HID level using `hidutil` (prevents system Caps Lock behavior)
+2. Creates a CGEventTap to intercept keyboard events
+3. When Caps Lock (now F18) is pressed, it starts a timer
+4. If released within the threshold (default 200ms) without pressing another key, Escape is emitted
+5. If another key is pressed while held, the Hyper modifiers are added to that key event
+6. On exit, the Caps Lock mapping is restored
 
 ## Troubleshooting
 
 ### "Accessibility permission required" error
 
+- Use the app bundle installation (`./build.sh app-bundle`) for easiest permission management
 - Grant permission in System Settings → Privacy & Security → Accessibility
-- If running from Terminal, add Terminal.app to the list
 - After granting permission, restart hyperesc
+
+### hyperesc doesn't appear in Accessibility list
+
+This happens with CLI binaries on recent macOS versions. Solutions:
+
+1. Use the app bundle: `./build.sh app-bundle`
+2. Or grant permission to your terminal app instead
 
 ### Caps Lock LED still toggles
 
 This can happen if another app is also intercepting Caps Lock. Check for conflicts with:
+
 - Karabiner-Elements
 - System keyboard settings
 - Other key remapping tools
@@ -136,7 +184,7 @@ Run with `--verbose` to check for issues. Normal idle CPU should be < 0.1%.
 ## Known Limitations
 
 - **Secure input fields**: Event tap is disabled in password prompts and other secure input areas (macOS security feature)
-- **Caps Lock LED**: The LED state is suppressed but may briefly flash on some keyboards
+- **Caps Lock LED**: The LED does not toggle (by design)
 - **Login screen**: Cannot run before login (requires user session)
 
 ## Performance
@@ -144,6 +192,17 @@ Run with `--verbose` to check for issues. Normal idle CPU should be < 0.1%.
 - CPU usage (idle): < 0.1%
 - Memory footprint: < 5MB
 - Tap-to-Escape latency: < 10ms
+
+## Build Commands
+
+| Command | Description |
+|---------|-------------|
+| `./build.sh` | Build universal binary |
+| `./build.sh app-bundle` | Create app bundle in /Applications |
+| `./build.sh install` | Install to /usr/local/bin |
+| `./build.sh uninstall-app` | Remove app bundle |
+| `./build.sh uninstall` | Remove from /usr/local/bin |
+| `./build.sh clean` | Clean build artifacts |
 
 ## License
 

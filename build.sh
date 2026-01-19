@@ -6,6 +6,8 @@
 #   ./build.sh              Build universal binary
 #   ./build.sh install      Build and install to /usr/local/bin
 #   ./build.sh uninstall    Remove from /usr/local/bin
+#   ./build.sh app-bundle   Create app bundle in /Applications (for Accessibility permissions)
+#   ./build.sh uninstall-app Remove app bundle from /Applications
 #   ./build.sh clean        Clean build artifacts
 #
 
@@ -15,6 +17,8 @@ PRODUCT_NAME="hyperesc"
 BUILD_DIR=".build"
 RELEASE_DIR="$BUILD_DIR/release"
 INSTALL_DIR="/usr/local/bin"
+APP_BUNDLE_DIR="/Applications/hyperesc.app"
+BUNDLE_ID="com.robertarles.hyperesc"
 MAX_SIZE=1048576  # 1MB in bytes
 
 # Colors for output
@@ -115,6 +119,65 @@ uninstall_binary() {
     fi
 }
 
+app_bundle() {
+    if [ ! -f "$RELEASE_DIR/$PRODUCT_NAME" ]; then
+        log_info "Binary not found, building first..."
+        build
+    fi
+
+    log_info "Creating app bundle at $APP_BUNDLE_DIR..."
+
+    # Create bundle structure
+    sudo mkdir -p "$APP_BUNDLE_DIR/Contents/MacOS"
+
+    # Copy binary
+    sudo cp "$RELEASE_DIR/$PRODUCT_NAME" "$APP_BUNDLE_DIR/Contents/MacOS/"
+    sudo chmod +x "$APP_BUNDLE_DIR/Contents/MacOS/$PRODUCT_NAME"
+
+    # Create Info.plist
+    sudo tee "$APP_BUNDLE_DIR/Contents/Info.plist" > /dev/null << EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleExecutable</key>
+    <string>$PRODUCT_NAME</string>
+    <key>CFBundleIdentifier</key>
+    <string>$BUNDLE_ID</string>
+    <key>CFBundleName</key>
+    <string>$PRODUCT_NAME</string>
+    <key>CFBundleDisplayName</key>
+    <string>HyperEsc</string>
+    <key>CFBundleVersion</key>
+    <string>1.0.0</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>12.0</string>
+    <key>LSUIElement</key>
+    <true/>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+</dict>
+</plist>
+EOF
+
+    log_info "App bundle created: $APP_BUNDLE_DIR"
+    log_info ""
+    log_info "To run: $APP_BUNDLE_DIR/Contents/MacOS/$PRODUCT_NAME"
+    log_info "The app should now appear in System Settings → Privacy & Security → Accessibility"
+}
+
+uninstall_app_bundle() {
+    if [ -d "$APP_BUNDLE_DIR" ]; then
+        log_info "Removing $APP_BUNDLE_DIR..."
+        sudo rm -rf "$APP_BUNDLE_DIR"
+        log_info "App bundle removed."
+    else
+        log_warn "App bundle not found at $APP_BUNDLE_DIR"
+    fi
+}
+
 # Main
 case "${1:-build}" in
     build)
@@ -126,11 +189,17 @@ case "${1:-build}" in
     uninstall)
         uninstall_binary
         ;;
+    app-bundle)
+        app_bundle
+        ;;
+    uninstall-app)
+        uninstall_app_bundle
+        ;;
     clean)
         clean
         ;;
     *)
-        echo "Usage: $0 {build|install|uninstall|clean}"
+        echo "Usage: $0 {build|install|uninstall|app-bundle|uninstall-app|clean}"
         exit 1
         ;;
 esac
