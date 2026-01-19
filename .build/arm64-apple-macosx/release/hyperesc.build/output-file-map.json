@@ -4,6 +4,12 @@
     "object": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/hyperesc.o",
     "swift-dependencies": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/master.swiftdeps"
   },
+  "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/EventTap.swift": {
+    "object": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/EventTap.swift.o",
+    "swiftmodule": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/EventTap~partial.swiftmodule",
+    "swift-dependencies": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/EventTap.swiftdeps",
+    "diagnostics": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/EventTap.dia"
+  },
   "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/KeyHandler.swift": {
     "object": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/KeyHandler.swift.o",
     "swiftmodule": "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/KeyHandler~partial.swiftmodule",

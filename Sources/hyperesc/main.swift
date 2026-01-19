@@ -99,3 +99,24 @@ guard checkAccessibilityPermission() else {
 }
 
 print("hyperesc initializing...")
+
+// Create key handler and event tap
+let keyHandler = KeyHandler(config: config)
+let eventTap = EventTap(keyHandler: keyHandler, verbose: config.verbose)
+
+// Start the event tap
+guard eventTap.start() else {
+    fputs("ERROR: Failed to start event tap.\n", stderr)
+    exit(1)
+}
+
+print("hyperesc running. Press Ctrl+C to quit.")
+
+// Handle SIGINT (Ctrl+C) for clean shutdown
+signal(SIGINT) { _ in
+    print("\nhyperesc shutting down...")
+    exit(0)
+}
+
+// Run the event loop (blocks until terminated)
+eventTap.run()

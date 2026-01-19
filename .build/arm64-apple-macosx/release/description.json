@@ -24,6 +24,10 @@
       "inputs" : [
         {
           "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/EventTap.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/KeyHandler.swift"
         },
         {
@@ -47,6 +51,7 @@
       "moduleName" : "hyperesc",
       "moduleOutputPath" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/Modules/hyperesc.swiftmodule",
       "objects" : [
+        "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/EventTap.swift.o",
         "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/KeyHandler.swift.o",
         "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/Permissions.swift.o",
         "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/main.swift.o"
@@ -106,6 +111,10 @@
       "outputs" : [
         {
           "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/EventTap.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/KeyHandler.swift.o"
         },
         {
@@ -123,6 +132,7 @@
       ],
       "prepareForIndexing" : false,
       "sources" : [
+        "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/EventTap.swift",
         "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/KeyHandler.swift",
         "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/Permissions.swift",
         "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/main.swift"
@@ -140,6 +150,7 @@
       "-module-name",
       "hyperesc",
       "-c",
+      "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/EventTap.swift",
       "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/KeyHandler.swift",
       "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/Permissions.swift",
       "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/main.swift",
@@ -224,6 +235,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/EventTap.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/robert/src/robertarles/hyperesc/Sources/hyperesc/KeyHandler.swift"
         },
         {
@@ -243,6 +258,10 @@
         {
           "kind" : "virtual",
           "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/robert/src/robertarles/hyperesc/.build/arm64-apple-macosx/release/hyperesc.build/EventTap.swift.o"
         },
         {
           "kind" : "file",
