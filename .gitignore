@@ -1,3 +1,6 @@
+# GitHub instructions (local only)
+.github/
+
 # Swift build artifacts
 .build/
 .swiftpm/
