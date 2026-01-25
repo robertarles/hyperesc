@@ -225,10 +225,18 @@ EOF
 }
 
 uninstall_app_bundle() {
-    # Unload LaunchAgent if running
+    # Stop running hyperesc process
+    if pgrep -x "$PRODUCT_NAME" > /dev/null; then
+        log_info "Stopping running hyperesc process..."
+        pkill -x "$PRODUCT_NAME" 2>/dev/null || true
+        sleep 1
+    fi
+
+    # Unload and disable LaunchAgent
     if [ -f "$LAUNCH_AGENT_PLIST" ]; then
-        log_info "Unloading LaunchAgent..."
-        launchctl unload "$LAUNCH_AGENT_PLIST" 2>/dev/null || true
+        log_info "Disabling LaunchAgent..."
+        launchctl bootout "gui/$(id -u)/$BUNDLE_ID" 2>/dev/null || \
+            launchctl unload "$LAUNCH_AGENT_PLIST" 2>/dev/null || true
         log_info "Removing $LAUNCH_AGENT_PLIST..."
         rm -f "$LAUNCH_AGENT_PLIST"
         log_info "LaunchAgent removed."
@@ -242,6 +250,10 @@ uninstall_app_bundle() {
     else
         log_warn "App bundle not found at $APP_BUNDLE_DIR"
     fi
+
+    # Remove Accessibility permission entry
+    log_info "Removing Accessibility permission entry..."
+    tccutil reset Accessibility "$BUNDLE_ID" 2>/dev/null || true
 
     # Restore Caps Lock mapping
     log_info "Restoring Caps Lock to default..."

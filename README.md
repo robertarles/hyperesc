@@ -2,59 +2,52 @@
 
 A lightweight macOS utility that transforms Caps Lock into a dual-function key:
 
-- **Tap** Caps Lock → Escape
-- **Hold** Caps Lock + another key → Hyper modifier (Cmd+Opt by default)
+- **Tap** Caps Lock alone → Escape (on key release)
+- **Hold** Caps Lock + another key → Hyper modifier (Cmd+Opt)
 
 Written in Swift with zero dependencies. Single binary < 1MB.
 
 ## Features
 
-- Caps Lock tap emits Escape (configurable threshold)
-- Caps Lock hold acts as Hyper key modifier
+- Caps Lock pressed alone emits Escape on release
+- Caps Lock held with another key adds Cmd+Opt modifiers
 - Configurable modifier: Cmd+Opt (default) or full Cmd+Opt+Ctrl+Shift
+- Caps Lock LED stays off (no toggling)
 - Minimal resource usage (< 0.1% CPU, < 5MB memory)
 - Universal binary (Intel + Apple Silicon)
 - No external dependencies
 
 ## Installation
 
-### Build from Source
+### Quick Install (Recommended)
 
 ```bash
 git clone https://github.com/robertarles/hyperesc.git
 cd hyperesc
-./build.sh
+sudo ./build.sh app-bundle
 ```
 
-### Install as App Bundle (Recommended)
+This will:
 
-The app bundle installation is recommended because it allows hyperesc to appear in the macOS Accessibility permissions list with its own identity.
+1. Build a universal binary
+2. Create `/Applications/hyperesc.app`
+3. Install a LaunchAgent for auto-start
+4. Print setup instructions
+
+### Manual Build
 
 ```bash
-./build.sh app-bundle
+./build.sh              # Build only
+./build.sh install      # Build and install to /usr/local/bin
 ```
-
-This creates `/Applications/hyperesc.app`. Run it with:
-
-```bash
-/Applications/hyperesc.app/Contents/MacOS/hyperesc
-```
-
-### Alternative: Install to /usr/local/bin
-
-```bash
-./build.sh install
-```
-
-Note: When installed this way, hyperesc inherits permissions from its parent process (Terminal, VS Code, etc.). You'll need to grant Accessibility permission to the terminal app you use.
 
 ### Uninstall
 
 ```bash
-# Remove app bundle
+# Remove app bundle, LaunchAgent, and restore Caps Lock
 ./build.sh uninstall-app
 
-# Remove from /usr/local/bin
+# Remove from /usr/local/bin only
 ./build.sh uninstall
 ```
 
@@ -62,168 +55,84 @@ Note: When installed this way, hyperesc inherits permissions from its parent pro
 
 hyperesc requires **Accessibility** permission to intercept keyboard events.
 
-### With App Bundle (Recommended)
-
-1. Run `/Applications/hyperesc.app/Contents/MacOS/hyperesc`
-2. macOS will prompt for Accessibility permission
-3. Go to **System Settings → Privacy & Security → Accessibility**
-4. Enable **hyperesc** in the list
-5. Restart hyperesc
-
-### With CLI Binary
-
-If you installed to `/usr/local/bin`, you need to grant permission to your terminal app:
-
-1. Go to **System Settings → Privacy & Security → Accessibility**
-2. Add your terminal app (Terminal.app, WezTerm, iTerm2, etc.)
-3. Run `hyperesc` from that terminal
+1. Run hyperesc (it will prompt for permission)
+2. Go to **System Settings → Privacy & Security → Accessibility**
+3. Enable **hyperesc** in the list
+4. Restart hyperesc
 
 ## Usage
 
 ```bash
-# From app bundle
-/Applications/hyperesc.app/Contents/MacOS/hyperesc [OPTIONS]
+# Start manually
+/Applications/hyperesc.app/Contents/MacOS/hyperesc
 
-# From /usr/local/bin
-hyperesc [OPTIONS]
+# With options
+/Applications/hyperesc.app/Contents/MacOS/hyperesc -v        # Verbose mode
+/Applications/hyperesc.app/Contents/MacOS/hyperesc -f        # Full hyper (Cmd+Opt+Ctrl+Shift)
 ```
 
 ### Options
 
 | Flag | Description |
 |------|-------------|
-| `-t, --threshold <ms>` | Tap threshold in milliseconds (default: 200) |
 | `-f, --full-hyper` | Use full Hyper key (Cmd+Opt+Ctrl+Shift) |
 | `-v, --verbose` | Enable verbose debug output |
 | `-h, --help` | Display help information |
 
-### Examples
+## Auto-Start
+
+The `app-bundle` install automatically creates a LaunchAgent. To enable:
 
 ```bash
-# Run with defaults (200ms threshold, Cmd+Opt modifier)
-/Applications/hyperesc.app/Contents/MacOS/hyperesc
-
-# Use 150ms tap threshold
-/Applications/hyperesc.app/Contents/MacOS/hyperesc -t 150
-
-# Use full Hyper key (Cmd+Opt+Ctrl+Shift)
-/Applications/hyperesc.app/Contents/MacOS/hyperesc --full-hyper
-
-# Custom threshold, full hyper, verbose output
-/Applications/hyperesc.app/Contents/MacOS/hyperesc -t 250 -f -v
-```
-
-## Auto-Start with Launch Agent
-
-To start hyperesc automatically on login, create a Launch Agent plist:
-
-1. Create the plist file:
-
-```bash
-cat > ~/Library/LaunchAgents/com.robertarles.hyperesc.plist << 'EOF'
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>Label</key>
-    <string>com.robertarles.hyperesc</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/Applications/hyperesc.app/Contents/MacOS/hyperesc</string>
-    </array>
-    <key>RunAtLoad</key>
-    <true/>
-    <key>KeepAlive</key>
-    <true/>
-    <key>StandardOutPath</key>
-    <string>/tmp/hyperesc.log</string>
-    <key>StandardErrorPath</key>
-    <string>/tmp/hyperesc.err</string>
-</dict>
-</plist>
-EOF
-```
-
-1. Load the agent:
-
-```bash
+# Enable auto-start
 launchctl load ~/Library/LaunchAgents/com.robertarles.hyperesc.plist
-```
 
-1. Verify it's running:
+# Disable auto-start
+launchctl unload ~/Library/LaunchAgents/com.robertarles.hyperesc.plist
 
-```bash
+# Check if running
 launchctl list | grep hyperesc
 ```
 
-1. To stop/unload:
-
-```bash
-launchctl unload ~/Library/LaunchAgents/com.robertarles.hyperesc.plist
-```
-
-**Note:** Do not add hyperesc to Login Items when using a Launch Agent—the agent handles startup automatically.
+Logs are written to `/tmp/hyperesc.out` and `/tmp/hyperesc.err`.
 
 ## How It Works
 
-1. hyperesc remaps Caps Lock to F18 at the HID level using `hidutil` (prevents system Caps Lock behavior)
-2. Creates a CGEventTap to intercept keyboard events
-3. When Caps Lock (now F18) is pressed, it starts a timer
-4. If released within the threshold (default 200ms) without pressing another key, Escape is emitted
-5. If another key is pressed while held, the Hyper modifiers are added to that key event
-6. On exit, the Caps Lock mapping is restored
+1. `hidutil` remaps Caps Lock at the HID level (prevents LED toggling)
+2. CGEventTap intercepts keyboard events
+3. When Caps Lock is pressed, hyperesc enters "held" state
+4. If released without pressing another key → Escape is emitted
+5. If another key is pressed while held → Cmd+Opt modifiers are added
+6. On exit, Caps Lock mapping is restored to default
 
 ## Troubleshooting
 
 ### "Accessibility permission required" error
 
-- Use the app bundle installation (`./build.sh app-bundle`) for easiest permission management
 - Grant permission in System Settings → Privacy & Security → Accessibility
-- After granting permission, restart hyperesc
+- After granting, restart hyperesc
 
 ### hyperesc doesn't appear in Accessibility list
 
-This happens with CLI binaries on recent macOS versions. Solutions:
-
-1. Use the app bundle: `./build.sh app-bundle`
-2. Or grant permission to your terminal app instead
-
-### Caps Lock LED still toggles
-
-This can happen if another app is also intercepting Caps Lock. Check for conflicts with:
-
-- Karabiner-Elements
-- System keyboard settings
-- Other key remapping tools
+Use the app bundle installation: `sudo ./build.sh app-bundle`
 
 ### Not working in certain apps
 
-Some apps use "secure input" mode (e.g., password fields) which temporarily disables event taps. This is expected macOS security behavior.
-
-### High CPU usage
-
-Run with `--verbose` to check for issues. Normal idle CPU should be < 0.1%.
+Some apps use "secure input" mode (password fields) which disables event taps. This is expected macOS security behavior.
 
 ## Known Limitations
 
-- **Secure input fields**: Event tap is disabled in password prompts and other secure input areas (macOS security feature)
-- **Caps Lock LED**: The LED does not toggle (by design)
+- **Secure input fields**: Event tap disabled in password prompts
 - **Login screen**: Cannot run before login (requires user session)
-
-## Performance
-
-- CPU usage (idle): < 0.1%
-- Memory footprint: < 5MB
-- Tap-to-Escape latency: < 10ms
 
 ## Build Commands
 
 | Command | Description |
 |---------|-------------|
 | `./build.sh` | Build universal binary |
-| `./build.sh app-bundle` | Create app bundle in /Applications |
+| `sudo ./build.sh app-bundle` | Create app bundle + LaunchAgent (recommended) |
 | `./build.sh install` | Install to /usr/local/bin |
-| `./build.sh uninstall-app` | Remove app bundle |
+| `./build.sh uninstall-app` | Remove app bundle, LaunchAgent, restore Caps Lock |
 | `./build.sh uninstall` | Remove from /usr/local/bin |
 | `./build.sh clean` | Clean build artifacts |
 
