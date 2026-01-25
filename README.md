@@ -113,33 +113,56 @@ hyperesc [OPTIONS]
 /Applications/hyperesc.app/Contents/MacOS/hyperesc -t 250 -f -v
 ```
 
-## Auto-Start with LaunchAgent
+## Auto-Start with Launch Agent
 
-To start hyperesc automatically on login:
+To start hyperesc automatically on login, create a Launch Agent plist:
 
-1. Copy the plist template:
-
-```bash
-cp templates/com.user.hyperesc.plist ~/Library/LaunchAgents/
-```
-
-1. The template is pre-configured for the app bundle path. Edit if needed:
+1. Create the plist file:
 
 ```bash
-nano ~/Library/LaunchAgents/com.user.hyperesc.plist
+cat > ~/Library/LaunchAgents/com.robertarles.hyperesc.plist << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.robertarles.hyperesc</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Applications/hyperesc.app/Contents/MacOS/hyperesc</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/hyperesc.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/hyperesc.err</string>
+</dict>
+</plist>
+EOF
 ```
 
 1. Load the agent:
 
 ```bash
-launchctl load ~/Library/LaunchAgents/com.user.hyperesc.plist
+launchctl load ~/Library/LaunchAgents/com.robertarles.hyperesc.plist
 ```
 
-1. To unload:
+1. Verify it's running:
 
 ```bash
-launchctl unload ~/Library/LaunchAgents/com.user.hyperesc.plist
+launchctl list | grep hyperesc
 ```
+
+1. To stop/unload:
+
+```bash
+launchctl unload ~/Library/LaunchAgents/com.robertarles.hyperesc.plist
+```
+
+**Note:** Do not add hyperesc to Login Items when using a Launch Agent—the agent handles startup automatically.
 
 ## How It Works
 

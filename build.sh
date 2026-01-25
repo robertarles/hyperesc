@@ -162,6 +162,17 @@ app_bundle() {
 </plist>
 EOF
 
+    # Ad-hoc code sign the app bundle for stable Accessibility permissions
+    log_info "Code signing app bundle (ad-hoc)..."
+    sudo codesign --force --deep --sign - "$APP_BUNDLE_DIR"
+
+    # Verify signature
+    if codesign --verify --verbose "$APP_BUNDLE_DIR" 2>/dev/null; then
+        log_info "Code signature verified successfully"
+    else
+        log_warn "Code signature verification returned warnings (ad-hoc signatures may show as 'invalid' but still work for permissions)"
+    fi
+
     log_info "App bundle created: $APP_BUNDLE_DIR"
     log_info ""
     log_info "To run: $APP_BUNDLE_DIR/Contents/MacOS/$PRODUCT_NAME"
