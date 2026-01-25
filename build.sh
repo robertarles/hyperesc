@@ -6,8 +6,8 @@
 #   ./build.sh              Build universal binary
 #   ./build.sh install      Build and install to /usr/local/bin
 #   ./build.sh uninstall    Remove from /usr/local/bin
-#   ./build.sh app-bundle   Create app bundle in /Applications (for Accessibility permissions)
-#   ./build.sh uninstall-app Remove app bundle from /Applications
+#   ./build.sh app-bundle   Create app bundle + LaunchAgent (recommended)
+#   ./build.sh uninstall-app Remove app bundle, LaunchAgent, and restore Caps Lock
 #   ./build.sh clean        Clean build artifacts
 #
 
@@ -19,6 +19,8 @@ RELEASE_DIR="$BUILD_DIR/release"
 INSTALL_DIR="/usr/local/bin"
 APP_BUNDLE_DIR="/Applications/hyperesc.app"
 BUNDLE_ID="com.robertarles.hyperesc"
+LAUNCH_AGENT_DIR="$HOME/Library/LaunchAgents"
+LAUNCH_AGENT_PLIST="$LAUNCH_AGENT_DIR/$BUNDLE_ID.plist"
 MAX_SIZE=1048576  # 1MB in bytes
 
 # Colors for output
@@ -174,12 +176,65 @@ EOF
     fi
 
     log_info "App bundle created: $APP_BUNDLE_DIR"
+
+    # Create LaunchAgent plist
+    log_info "Installing LaunchAgent to $LAUNCH_AGENT_PLIST..."
+    mkdir -p "$LAUNCH_AGENT_DIR"
+    cat > "$LAUNCH_AGENT_PLIST" << EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>$BUNDLE_ID</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>$APP_BUNDLE_DIR/Contents/MacOS/$PRODUCT_NAME</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardErrorPath</key>
+    <string>/tmp/hyperesc.err</string>
+    <key>StandardOutPath</key>
+    <string>/tmp/hyperesc.out</string>
+</dict>
+</plist>
+EOF
+
+    log_info "LaunchAgent installed."
     log_info ""
-    log_info "To run: $APP_BUNDLE_DIR/Contents/MacOS/$PRODUCT_NAME"
-    log_info "The app should now appear in System Settings → Privacy & Security → Accessibility"
+    log_info "=============================================="
+    log_info "SETUP COMPLETE"
+    log_info "=============================================="
+    log_info ""
+    log_info "1. Grant Accessibility permission:"
+    log_info "   System Settings -> Privacy & Security -> Accessibility"
+    log_info "   Enable 'hyperesc'"
+    log_info ""
+    log_info "2. Enable auto-start (run once):"
+    log_info "   launchctl load $LAUNCH_AGENT_PLIST"
+    log_info ""
+    log_info "3. Or start manually:"
+    log_info "   $APP_BUNDLE_DIR/Contents/MacOS/$PRODUCT_NAME"
+    log_info ""
+    log_info "To disable auto-start:"
+    log_info "   launchctl unload $LAUNCH_AGENT_PLIST"
+    log_info ""
 }
 
 uninstall_app_bundle() {
+    # Unload LaunchAgent if running
+    if [ -f "$LAUNCH_AGENT_PLIST" ]; then
+        log_info "Unloading LaunchAgent..."
+        launchctl unload "$LAUNCH_AGENT_PLIST" 2>/dev/null || true
+        log_info "Removing $LAUNCH_AGENT_PLIST..."
+        rm -f "$LAUNCH_AGENT_PLIST"
+        log_info "LaunchAgent removed."
+    fi
+
+    # Remove app bundle
     if [ -d "$APP_BUNDLE_DIR" ]; then
         log_info "Removing $APP_BUNDLE_DIR..."
         sudo rm -rf "$APP_BUNDLE_DIR"
@@ -187,6 +242,11 @@ uninstall_app_bundle() {
     else
         log_warn "App bundle not found at $APP_BUNDLE_DIR"
     fi
+
+    # Restore Caps Lock mapping
+    log_info "Restoring Caps Lock to default..."
+    hidutil property --set '{"UserKeyMapping":[]}' > /dev/null
+    log_info "Uninstall complete."
 }
 
 # Main
